@@ -1,0 +1,208 @@
+﻿<Window x:Class="ProjectAssessmentTool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectAssessmentTool"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="6*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <WrapPanel Orientation="Horizontal">
+                <TextBlock Grid.Row="0" Grid.ColumnSpan="2"
+                           Style="{StaticResource Header}"
+                           Margin="10,2,0,0">
+                    Project Assessment
+                </TextBlock>
+                <Grid 
+                    Margin="10,0,0,0">
+                    <TextBox x:Name="ProjectNameTextBox"
+                         Text="{Binding NewProjectName}"
+                         Margin="0"
+                         Width="150"
+                         VerticalContentAlignment="Center"
+                         BorderThickness="0"
+                         TextChanged="ProjectNameTextBox_TextChanged"/>
+
+                    <!-- Плейсхолдер -->
+                    <TextBlock x:Name="PlaceholderText"
+                        Text="Enter the project name"
+                        Foreground="Gray"
+                        Margin="5,0,0,0"
+                        Width="150"
+                        VerticalAlignment="Center"
+                        IsHitTestVisible="False"
+                        Visibility="Visible"/>
+                </Grid>
+                <Button Content="Create"
+                        Style="{StaticResource Button}"
+                        Command="{Binding CreateNewProjectCommand}"/>
+            </WrapPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ListBox
+                    BorderThickness ="0,0,0,0"
+                    ItemsSource="{Binding Projects}"
+                    SelectedItem="{Binding SelectedProject, Mode=TwoWay}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical" Margin="5,0,0,0">
+                                <TextBlock 
+                                    Text="{Binding Name}" 
+                                    Style="{StaticResource Header}"/>
+                                <TextBlock 
+                                    Text="{Binding CreateDate, StringFormat='Date: {0:yyyy-MM-dd}'}" 
+                                    Style="{StaticResource Text}"
+                                    Foreground="Gray"/>
+                                <Button Content="Удалить"
+                                        Command="{Binding DataContext.DeleteProjectCommand, RelativeSource={RelativeSource AncestorType=ListBox}}"
+                                        CommandParameter="{Binding Name}" 
+                                        VerticalAlignment="Center"
+                                        Padding="5,2"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="10">
+            <WrapPanel Orientation="Vertical">
+                <!-- Project Name -->
+                <StackPanel Orientation="Horizontal" Margin="40,10,0,0">
+                    <TextBlock 
+                        Style="{StaticResource Header}"
+                        Text="Project:" 
+                        Width="100"
+                        />
+                    <TextBlock 
+                        Text="{Binding ProjectName}" 
+                        Style="{StaticResource Text}"
+                        />
+                </StackPanel>
+                <!-- Create Date -->
+                <StackPanel Orientation="Horizontal" Margin="40,10,0,0">
+                    <TextBlock 
+                        Style="{StaticResource Header}"
+                        Text="Create Date:"
+                        Width="100"
+                        />
+                    <TextBlock 
+                        Text="{Binding CreateDate}" 
+                        Style="{StaticResource Text}"
+                        />
+                </StackPanel>
+                <!-- Update Date -->
+                <StackPanel Orientation="Horizontal" Margin="40,10,0,0">
+                    <TextBlock 
+                        Style="{StaticResource Header}"
+                        Text="Update Date:"
+                        Width="100"
+                        />
+                    <TextBlock 
+                        Text="{Binding UpdateDate}" 
+                        Style="{StaticResource Text}"
+                        />
+                </StackPanel>
+                <!-- NPV -->
+                <StackPanel Orientation="Horizontal" Margin="40,10,0,0">
+                    <TextBlock 
+                        Style="{StaticResource Header}"
+                        Text="NPV:" 
+                        Width="100"
+                        />
+                    <TextBlock 
+                        Text="{Binding Npv}" 
+                        Style="{StaticResource Text}"
+                        />
+                    <TextBlock 
+                        Text="" 
+                        Style="{StaticResource Text}"
+                        />
+                </StackPanel>
+                <!-- IRR -->
+                <StackPanel Orientation="Horizontal" Margin="40,10,0,0">
+                    <TextBlock 
+                        Style="{StaticResource Header}"
+                        Text="IRR:" 
+                        Width="100"
+                        />
+                    <TextBlock 
+                        Text="{Binding Irr}" 
+                        Style="{StaticResource Text}"
+                        />
+                    <TextBlock 
+                        Text="%" 
+                        Style="{StaticResource Text}"
+                        />
+                </StackPanel>
+                <!-- PaybackPeriod -->
+                <StackPanel Orientation="Horizontal" Margin="40,10,0,0">
+                    <TextBlock 
+                    Style="{StaticResource Header}"
+                    Text="Payback Period:" 
+                    Width="100"
+                    />
+                    <TextBlock 
+                    Text="{Binding PaybackPeriod}" 
+                    Style="{StaticResource Text}"
+                    />
+                    <TextBlock 
+                    Text="years" 
+                    Style="{StaticResource Text}"
+                    />
+                </StackPanel>
+                <!-- PI -->
+                <StackPanel Orientation="Horizontal" Margin="40,10,0,0">
+                    <TextBlock 
+                        Style="{StaticResource Header}"
+                        Text="PI:" 
+                        Width="100"
+                        />
+                    <TextBlock 
+                        Text="{Binding Pi}" 
+                        Style="{StaticResource Text}"
+                        />
+                    <TextBlock 
+                        Text="" 
+                        Style="{StaticResource Text}"
+                        />
+                </StackPanel>
+                <!-- ROI -->
+                <StackPanel Orientation="Horizontal" Margin="40,10,0,0">
+                    <TextBlock 
+                        Style="{StaticResource Header}"
+                        Text="ROI:"
+                        Width="100"
+                        />
+                    <TextBlock 
+                        Text="{Binding Roi}" 
+                        Style="{StaticResource Text}"
+                        />
+                    <TextBlock 
+                        Text="ROI" 
+                        Style="{StaticResource Text}"
+                        />
+                </StackPanel>
+                <!-- Open Project -->
+                <StackPanel Orientation="Horizontal" Margin="40,10,0,0">
+                    <Button Content="Open project"
+                        Style="{StaticResource Button}"
+                        Command="{Binding OpenProjectCommand}"/>
+                </StackPanel>
+            </WrapPanel>
+        </Grid>
+    </Grid>
+</Window>

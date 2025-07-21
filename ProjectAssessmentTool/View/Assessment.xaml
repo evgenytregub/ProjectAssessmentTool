@@ -1,0 +1,550 @@
+﻿<Window x:Class="ProjectAssessmentTool.View.Assessment"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectAssessmentTool.View"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:vm="clr-namespace:ProjectAssessmentTool.Converters"
+        mc:Ignorable="d"
+        Title="Assessment" 
+        WindowState="Maximized" 
+        d:DesignHeight="900" 
+        d:DesignWidth="1600"
+        >
+
+    <Window.Resources>
+        <vm:ThousandSeparatorConverter x:Key="ThousandConverter"/>
+        <vm:NumberWithSpaceSeparatorConverter x:Key="NumberWithSpaceConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="6*" />
+        </Grid.ColumnDefinitions>
+        <WrapPanel Orientation="Horizontal">
+            <TextBlock 
+                Text="{Binding AssessmentProjectName}" 
+                Style="{StaticResource Header}"
+                Margin="10,0,0,0"
+                />
+        </WrapPanel>
+        <Rectangle Height="1" Fill="Black" VerticalAlignment="Bottom" Grid.ColumnSpan="2"/>
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <WrapPanel Orientation="Vertical">
+                <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="10,0,0,0">
+                    INITIAL DATA:
+                </TextBlock>
+                <!-- Plant capacity -->
+                <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="10,10,0,0">
+                    1. Plant capacity:
+                </TextBlock>
+                <!-- Capacity -->
+                <WrapPanel Orientation="Horizontal">
+                    <TextBlock
+                            Style="{StaticResource Text}"
+                            Margin="40,0,0,0">
+                        Capacity:
+                    </TextBlock>
+                    <TextBox 
+                            Text="{Binding PlantСapacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Style="{StaticResource InputText}">
+                    </TextBox>
+                    <TextBlock
+                            Style="{StaticResource Text}">
+                        %
+                    </TextBlock>
+                </WrapPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="130,10,0,0"
+                        >
+                        Tonn in year
+                    </TextBlock>
+                    <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="20,10,0,0"
+                        >
+                        Price USD
+                    </TextBlock>
+                    <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="35,10,0,0"
+                        >
+                        Total USD
+                    </TextBlock>
+                </StackPanel>
+                <ItemsControl x:Name="ItemsList" Margin="10" ItemsSource="{Binding Pairs}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox 
+                                    Text="{Binding ProductName}"
+                                    Style="{StaticResource InputText}"
+                                    Margin="30,0,0,0"
+                                    />
+                                <TextBox
+                                    PreviewTextInput="OnlyNumbers_PreviewTextInput"
+                                    Text="{Binding ValueA, 
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Converter={StaticResource ThousandConverter}}" 
+                                    Style="{StaticResource InputText}"
+                                    />
+                                <TextBox 
+                                    PreviewTextInput="OnlyNumbers_PreviewTextInput"
+                                    Text="{Binding ValueB, 
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Converter={StaticResource ThousandConverter}}" 
+                                    Style="{StaticResource InputText}"
+                                    />
+                                <TextBlock 
+                                    Text="{Binding Sum, 
+                                            Converter={StaticResource NumberWithSpaceConverter}}" 
+                                    Style="{StaticResource TextField}"
+                                    />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <StackPanel Orientation="Horizontal" Margin="40,0,0,0">
+                    <TextBlock 
+                        Style="{StaticResource Header}"
+                        Text="Total Revenue:" />
+                    <TextBlock 
+                        Text="{Binding TotalSum,
+                                Converter={StaticResource NumberWithSpaceConverter}}" 
+                        Style="{StaticResource Header}"
+                        Width="80"
+                        Margin="10,0,0,0"
+                        />
+                    <TextBlock 
+                        Text="USD in year" 
+                        Style="{StaticResource Header}"
+                        />
+                </StackPanel>
+                <!-- OPEX -->
+                <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="10,10,0,0">
+                    2. OPEX:
+                </TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="130,0,0,0"
+                        >
+                        Tonn in year
+                    </TextBlock>
+                    <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="20,0,0,0"
+                        >
+                        Price USD
+                    </TextBlock>
+                    <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="35,0,0,0"
+                        >
+                        Total USD
+                    </TextBlock>
+                </StackPanel>
+                <ItemsControl x:Name="ItemsListOPEX" Margin="10,0,0,0" ItemsSource="{Binding OpexPairs}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox 
+                                    Text="{Binding MaterialName}"
+                                    Style="{StaticResource InputText}"
+                                    Margin="30,0,0,0"
+                                    />
+                                <TextBox
+                                    PreviewTextInput="OnlyNumbers_PreviewTextInput"
+                                    Text="{Binding ValueA, 
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Converter={StaticResource ThousandConverter}}" 
+                                    Style="{StaticResource InputText}"
+                                    />
+                                <TextBox 
+                                    PreviewTextInput="OnlyNumbers_PreviewTextInput"
+                                    Text="{Binding ValueB, 
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Converter={StaticResource ThousandConverter}}" 
+                                    Style="{StaticResource InputText}"
+                                    />
+                                <TextBlock 
+                                    Text="{Binding OpexSum,
+                                            Converter={StaticResource NumberWithSpaceConverter}}" 
+                                    Style="{StaticResource TextField}"
+                                    />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <TextBox 
+                        Text="Staff:"
+                        Style="{StaticResource InputText}"
+                        Margin="30,0,0,0"
+                        />
+                    <TextBox
+                        Text="{Binding OpexStaff, 
+                                Mode=TwoWay, 
+                                UpdateSourceTrigger=PropertyChanged,
+                                Converter={StaticResource ThousandConverter}}"
+                        PreviewTextInput="OnlyNumbers_PreviewTextInput" 
+                        Style="{StaticResource InputText}"
+                        />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="35,10,0,0">
+                    <TextBlock 
+                        Style="{StaticResource Header}"
+                        Text="Total OPEX:" />
+                    <TextBlock 
+                        Text="{Binding OpexTotalSum,
+                                Converter={StaticResource NumberWithSpaceConverter}}" 
+                        Style="{StaticResource Header}"
+                        Margin="10,0,0,0"
+                        Width="80"
+                        />
+                    <TextBlock 
+                        Text="USD in year" 
+                        Style="{StaticResource Header}"
+                        />
+                </StackPanel>
+                <!-- CAPEX -->
+                <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="10,10,0,0">
+                    3. CAPEX:
+                </TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="40,0,0,0"
+                        >
+                        Unit
+                    </TextBlock>
+                    <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="80,0,0,0"
+                        >
+                        Price USD
+                    </TextBlock>
+                </StackPanel>
+                <ItemsControl x:Name="ItemsListCAPEX" Margin="10" ItemsSource="{Binding CapexPairs}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox 
+                                    Text="{Binding UnitName}"
+                                    Style="{StaticResource InputText}"
+                                    Margin="30,0,0,0"
+                                    />
+                                <TextBox
+                                    PreviewTextInput="OnlyNumbers_PreviewTextInput"
+                                    Text="{Binding ValueA, 
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Converter={StaticResource ThousandConverter}}" 
+                                    Style="{StaticResource InputText}"
+                                    />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <StackPanel Orientation="Horizontal" Margin="40,0,0,0">
+                    <TextBlock 
+                        Style="{StaticResource Header}"
+                        Text="Total CAPEX:" 
+                        />
+                    <TextBlock 
+                        Text="{Binding CapexTotalSum,
+                                Converter={StaticResource NumberWithSpaceConverter}}" 
+                        Style="{StaticResource Header}"
+                        Margin="10,0,0,0"
+                        Width="80"
+                        />
+                    <TextBlock 
+                        Text="USD in year" 
+                        Style="{StaticResource Header}"
+                        />
+                </StackPanel>
+            </WrapPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <WrapPanel Orientation="Vertical">
+                <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="10,0,0,0">
+                    INITIAL DATA:
+                </TextBlock>
+                <!-- Cash Flow -->
+                <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="10,10,0,0">
+                    4. Cash Flow:
+                </TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="130,0,0,0"
+                        >
+                        Expenses
+                    </TextBlock>
+                    <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="45,0,0,0"
+                        >
+                        Income
+                    </TextBlock>
+                    <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="45,0,0,0"
+                        >
+                        Total
+                    </TextBlock>
+                </StackPanel>
+                <ItemsControl x:Name="ItemsListCashFlow" Margin="10" ItemsSource="{Binding CashFlowPairs}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox 
+                                    Text="{Binding CashFlowYear}"
+                                    Style="{StaticResource InputText}"
+                                    Margin="30,0,0,0"
+                                    />
+                                <TextBox
+                                    PreviewTextInput="OnlyNumbers_PreviewTextInput"
+                                    Text="{Binding ValueA, 
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Converter={StaticResource ThousandConverter}}" 
+                                    Style="{StaticResource InputText}"
+                                    />
+                                <TextBox 
+                                    PreviewTextInput="OnlyNumbers_PreviewTextInput"
+                                    Text="{Binding ValueB, 
+                                            UpdateSourceTrigger=PropertyChanged,
+                                            Converter={StaticResource ThousandConverter}}" 
+                                    Style="{StaticResource InputText}"
+                                    />
+                                <TextBlock 
+                                    Text="{Binding CashFlowSum,
+                                            Converter={StaticResource NumberWithSpaceConverter}}" 
+                                    Style="{StaticResource TextField}"
+                                    />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <StackPanel Orientation="Horizontal" Margin="40,0,0,0">
+                    <TextBlock 
+                        Text="Total:" 
+                        Style="{StaticResource Header}" 
+                        Margin="5,0,0,0"/>
+                    <TextBlock 
+                        Text="{Binding CashFlowExpensesSum,
+                                Converter={StaticResource NumberWithSpaceConverter}}" 
+                        Style="{StaticResource Header}" 
+                        Width="80"
+                        Margin="60,0,0,0"/>
+                    <TextBlock 
+                        Text="{Binding CashFlowIncomeSum,
+                                Converter={StaticResource NumberWithSpaceConverter}}" 
+                        Style="{StaticResource Header}" 
+                        Width="80"
+                        Margin="10,0,0,0"/>
+                    <TextBlock 
+                        Text="{Binding CashFlowTotalSum,
+                            Converter={StaticResource NumberWithSpaceConverter}}" 
+                        Style="{StaticResource Header}"
+                        Width="80"
+                        Margin="10,0,0,0"/>
+                </StackPanel>
+                <!-- Assesment -->
+                <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="10,10,0,0">
+                    ASSESSMENT:
+                </TextBlock>
+                <!-- NPV (Net Present Value) -->
+                <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="10,10,0,0">
+                    1. NPV (Net Present Value):
+                </TextBlock>
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <TextBox 
+                        Text="Discount Rate:"
+                        Style="{StaticResource InputText}"
+                        Margin="30,0,0,0"
+                        />
+                    <TextBox
+                        Text="{Binding NPVDiscountRate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        PreviewTextInput="OnlyNumbers_PreviewTextInput" 
+                        Style="{StaticResource InputText}"
+                        />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="40,10,0,0">
+                    <TextBlock 
+                        Style="{StaticResource Header}"
+                        Text="NPV:" 
+                        Margin="7,0,0,0"
+                        />
+                    <TextBlock 
+                        Text="{Binding NPVResult}" 
+                        Style="{StaticResource Header}"
+                        Margin="10,0,0,0"
+                        Width="80"
+                        />
+                </StackPanel>
+                <!-- IRR (Internal Rate of Return) -->
+                <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="10,10,0,0">
+                    2. IRR (Internal Rate of Return):
+                </TextBlock>
+                <StackPanel Orientation="Horizontal" Margin="40,10,0,0">
+                    <TextBlock 
+                        Style="{StaticResource Header}"
+                        Text="IRR:" 
+                        Margin="7,0,0,0"
+                        />
+                    <TextBlock 
+                        Text="{Binding IRRResult}" 
+                        Style="{StaticResource Header}"
+                        Margin="10,0,0,0"
+                        Width="80"
+                        />
+                    <TextBlock 
+                        Text="%" 
+                        Style="{StaticResource Header}"
+                        />
+                </StackPanel>
+                <!-- Payback Period -->
+                <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="10,10,0,0">
+                    3. Payback Period:
+                </TextBlock>
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <TextBox 
+                        Text="Annual Cash Flow:"
+                        Style="{StaticResource InputText}"
+                        Width="120"
+                        Margin="30,0,0,0"
+                        />
+                    <TextBox
+                        Text="{Binding AnnualCashFlow, 
+                                Mode=TwoWay, 
+                                UpdateSourceTrigger=PropertyChanged,
+                                Converter={StaticResource ThousandConverter}}"
+                        PreviewTextInput="OnlyNumbers_PreviewTextInput" 
+                        Style="{StaticResource InputText}"
+                        />
+                    <TextBlock 
+                        Text="USD"
+                        Style="{StaticResource Text}"
+                        />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="40,10,0,0">
+                    <TextBlock 
+                        Style="{StaticResource Header}"
+                        Text="Payback Period:" 
+                        Margin="7,0,0,0"
+                        />
+                    <TextBlock 
+                        Text="{Binding PaybackPeriodResult}" 
+                        Style="{StaticResource Header}"
+                        Margin="10,0,0,0"
+                        Width="80"
+                        />
+                    <TextBlock 
+                        Text="years" 
+                        Style="{StaticResource Header}"
+                        />
+                </StackPanel>
+                <!-- PI (Profitability Index) -->
+                <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="10,10,0,0">
+                    4. PI (Profitability Index):
+                </TextBlock>
+                <StackPanel Orientation="Horizontal" Margin="40,10,0,0">
+                    <TextBlock 
+                        Style="{StaticResource Header}"
+                        Text="PI:" 
+                        Margin="7,0,0,0"
+                        />
+                    <TextBlock 
+                        Text="{Binding PIResult}" 
+                        Style="{StaticResource Header}"
+                        Margin="10,0,0,0"
+                        Width="80"
+                        />
+                </StackPanel>
+                <!-- ROI (Return on Investment) -->
+                <TextBlock
+                        Style="{StaticResource Header}"
+                        Margin="10,10,0,0">
+                    5. ROI (Return on Investment):
+                </TextBlock>
+                <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
+                    <TextBox 
+                        Text="Service life:"
+                        Style="{StaticResource InputText}"
+                        Margin="30,0,0,0"
+                        />
+                    <TextBox
+                        Text="{Binding Servicelife, 
+                                Mode=TwoWay, 
+                                UpdateSourceTrigger=PropertyChanged,
+                                Converter={StaticResource ThousandConverter}}"
+                        PreviewTextInput="OnlyNumbers_PreviewTextInput" 
+                        Style="{StaticResource InputText}"
+                        />
+                    <TextBlock 
+                        Text="years"
+                        Style="{StaticResource Text}"
+                        />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="40,10,0,0">
+                    <TextBlock 
+                        Style="{StaticResource Header}"
+                        Text="ROI:" 
+                        Margin="7,0,0,0"
+                        />
+                    <TextBlock 
+                        Text="{Binding ROIResult}" 
+                        Style="{StaticResource Header}"
+                        Margin="10,0,0,0"
+                        Width="80"
+                        />
+                    <TextBlock 
+                        Style="{StaticResource Header}"
+                        Text="%" 
+                        />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="40,10,0,0">
+                <Button Content="Save project"
+                    Style="{StaticResource Button}"
+                    Command="{Binding SaveProjectCommand}"/>
+                </StackPanel>
+            </WrapPanel>
+
+        </Grid>
+    </Grid>
+</Window>

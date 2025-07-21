@@ -1,0 +1,13 @@
+[
+  {
+    "Id": 1,
+    "Name": "Test project",
+    "CreateDate": "2025-01-15",
+    "UpdateDate": "2025-01-15",
+    "NPV": 0,
+    "IRR": 0,
+    "PaybackPeriod": 0,
+    "PI": 0,
+    "ROI": 0
+  }
+]
